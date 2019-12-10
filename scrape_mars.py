@@ -2,23 +2,44 @@
 from flask import Flask, render_template
 import pymongo
 
-# create instance of Flask app
-app = Flask(__name__)
+from splinter import Browser
+from bs4 import BeautifulSoup as bs
+import time
 
 
-
-# create route that renders index.html template
-@app.route("/")
-def scrape():
-    return render_template("index.html", text="Serving up cool text from the Flask server!!")
-
-# flask calls the echo function for us when that page is loaded.  It 
-# automatically calls the index html, which then calls back to this 'text'
-# the client asks for the html file, and flask honors that request by 'serving' that request
-
-# in class we have been using 'live server' in place of flask.  live server cannot access a 
-# database, but flask can
+def init_browser():
+    # set path to chromedriver
+    executable_path = {"executable_path": "C:chromedrv/chromedriver.exe"}
+    return Browser("chrome", **executable_path, headless=False)
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+def scrape_mars():
+    browser = init_browser()
+
+    # Visit Mars News site
+    url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
+    browser.visit(url)
+
+    time.sleep(1)
+
+    # set variables for scraping news
+    html_news = browser.html
+    soup_news = bs(html_news, 'html.parser')
+
+    # Retrieve elements that contain News information
+    result_news = soup_news.find('li', class_='slide')
+
+    # Retrieve latest News Title and Paragraph Text      
+    news_title = result_news.find('div', class_='content_title').text.strip()
+    news_p = result_news.find('div', class_='rollover_description_inner').text.strip()
+
+    # create dictionary containing scraped data
+    mars_data = {
+        "news_title": news_title,
+        "news_paragraph": news_p
+    }
+
+    # close weather data site
+    browser.quit()
+
+    return mars_data
