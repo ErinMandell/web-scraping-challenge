@@ -63,28 +63,28 @@ def scrape_info():
 
     # **********************************************************
 
-    # # start new browser session for next scrape
-    # browser = init_browser()
+    # start new browser session for next scrape
+    browser = init_browser()
 
-    # # Visit Space Facts site for Mars data
-    # url_facts = "https://space-facts.com/mars/"
-    # browser.visit(url_facts)
+    # Visit Space Facts site for Mars data
+    url_facts = "https://space-facts.com/mars/"
+    browser.visit(url_facts)
 
-    # time.sleep(1)
+    time.sleep(1)
 
-    # #set variables for scraping facts table
-    # tables = pd.read_html(url_facts)
+    #set variables for scraping facts table
+    tables = pd.read_html(url_facts)
 
-    # df = tables[0]
-    # df.columns = ['Description','Data']
+    df = tables[0]
+    df.columns = ['Description','Data']
 
-    # table = df.set_index('Description')
+    table = df.set_index('Description')
 
     # mars_table = table.to_html()
 
     # mars_table = mars_table.replace('\n', '')
 
-    # # create dictionary containing scraped data
+    # create dictionary containing scraped data
     # mars = {
     #     "news_title": news_title,
     #     "news_paragraph": news_p,
@@ -92,8 +92,8 @@ def scrape_info():
     #     "mars_table": table
     # }
 
-    # # close data site
-    # browser.quit()
+    # close data site
+    browser.quit()
 
     # **********************************************************
     
@@ -115,19 +115,27 @@ def scrape_info():
     soup_full_image = bs(html_full_image, 'html.parser')
 
     # Retrieve elements that contain Featured Image information
-    result_full_image = soup_full_image.find('img', class_='fancybox-image')
+    result_full_image = soup_full_image.find('img', class_='fancybox-image')['src']
 
-    # Isolate src and build URL:      
-    mars_image_url = 'https://www.jpl.nasa.gov' + result_full_image['src']    
+    # Isolate src and build URL:
+    url = 'https://www.jpl.nasa.gov'      
+    mars_image_url = url + result_full_image
+
+    # TEST DICIONARY
+    mars["news_title"] = news_title
+    mars["news_paragraph"] = news_p
+    mars["mars_weather"] = mars_weather
+    # mars["mars_image"] = mars_image_url
 
 
     # create dictionary containing scraped data
-    mars = {
-        "news_title": news_title,
-        "news_paragraph": news_p,
-        "mars_weather": mars_weather,
-        "mars_image": mars_image_url
-    }
+    # mars = {
+    #     "news_title": news_title,
+    #     "news_paragraph": news_p,
+    #     "mars_weather": mars_weather,
+    #     # "mars_table": table,
+    #     "mars_image": mars_image_url
+    # }
 
     # close image site
     browser.quit()
