@@ -14,7 +14,7 @@ def init_browser():
 
 def scrape_info():
     
-    # **********************************************************
+    # *************** MARS NEWS *******************************************
 
     browser = init_browser()
     mars = {}
@@ -39,7 +39,7 @@ def scrape_info():
     # close news data site
     browser.quit()
 
-    # **********************************************************
+    # *************** WEATHER REPORT TWITTER *******************************************
 
     # start new browser session for next scrape
     browser = init_browser()
@@ -55,13 +55,12 @@ def scrape_info():
     soup_weather = bs(html, "html.parser")
 
     # Retrieve elements that contain Mars Weather information in Twitter
-    mars_weather = soup_weather.find('div', class_='js-tweet-text-container').\
-    find('p', class_='TweetTextSize TweetTextSize--normal js-tweet-text tweet-text').text.split('pic')[0]
+    mars_weather = soup_weather.find('div', class_='js-tweet-text-container').find('p', class_='TweetTextSize TweetTextSize--normal js-tweet-text tweet-text').text.split('pic')[0]
 
     # close news data site
     browser.quit()
 
-    # **********************************************************
+    # ************** FACTS TABLE ********************************************
 
     # start new browser session for next scrape
     browser = init_browser()
@@ -80,22 +79,12 @@ def scrape_info():
 
     table = df.set_index('Description')
 
-    # mars_table = table.to_html()
-
-    # mars_table = mars_table.replace('\n', '')
-
-    # create dictionary containing scraped data
-    # mars = {
-    #     "news_title": news_title,
-    #     "news_paragraph": news_p,
-    #     "mars_weather": mars_weather,
-    #     "mars_table": table
-    # }
+    mars_table = table.to_html()
 
     # close data site
     browser.quit()
 
-    # **********************************************************
+    # ************ FULL SIZE IMAGE **********************************************
     
     # start new browser session for next scrape
     browser = init_browser()
@@ -103,13 +92,11 @@ def scrape_info():
     # Visit NASA site for image scrape
     url_full_image = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
     browser.visit(url_full_image)
-
     time.sleep(1)
 
+    # Click through to desired page
     browser.click_link_by_partial_text('FULL IMAGE')
-
     time.sleep(5)
-
     browser.click_link_by_partial_text('more info')
 
     # HTML object
@@ -119,7 +106,6 @@ def scrape_info():
     soup_full_image = bs(html_full_image, 'html.parser')
 
     # Retrieve elements that contain Featured Image information
-    # result_full_image = soup_full_image.find('img', class_='fancybox-image')['src']
     result_full_image = soup_full_image.find('img', class_='main_image')['src']
 
     # Isolate src and build URL:
@@ -132,11 +118,12 @@ def scrape_info():
         "news_title": news_title,
         "news_paragraph": news_p,
         "mars_weather": mars_weather,
-        # "mars_table": table,
+        "mars_table": mars_table,
         "mars_image": mars_image_url
     }
 
+    return mars
+
     # close image site
     browser.quit()
-
-    return mars
+    browser.quit()

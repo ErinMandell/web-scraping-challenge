@@ -15,7 +15,7 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_app")
 def index():
 
     # Find one record of data from the mongo database
-    mars = mongo.db.mars.find()
+    mars = mongo.db.mars.find_one()
 
     # Return template and data
     return render_template("index.html", mars=mars)
