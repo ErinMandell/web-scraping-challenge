@@ -108,6 +108,10 @@ def scrape_info():
 
     browser.click_link_by_partial_text('FULL IMAGE')
 
+    time.sleep(5)
+
+    browser.click_link_by_partial_text('more info')
+
     # HTML object
     html_full_image = browser.html
     
@@ -115,27 +119,22 @@ def scrape_info():
     soup_full_image = bs(html_full_image, 'html.parser')
 
     # Retrieve elements that contain Featured Image information
-    result_full_image = soup_full_image.find('img', class_='fancybox-image')['src']
+    # result_full_image = soup_full_image.find('img', class_='fancybox-image')['src']
+    result_full_image = soup_full_image.find('img', class_='main_image')['src']
 
     # Isolate src and build URL:
     url = 'https://www.jpl.nasa.gov'      
     mars_image_url = url + result_full_image
 
-    # TEST DICIONARY
-    mars["news_title"] = news_title
-    mars["news_paragraph"] = news_p
-    mars["mars_weather"] = mars_weather
-    # mars["mars_image"] = mars_image_url
-
 
     # create dictionary containing scraped data
-    # mars = {
-    #     "news_title": news_title,
-    #     "news_paragraph": news_p,
-    #     "mars_weather": mars_weather,
-    #     # "mars_table": table,
-    #     "mars_image": mars_image_url
-    # }
+    mars = {
+        "news_title": news_title,
+        "news_paragraph": news_p,
+        "mars_weather": mars_weather,
+        # "mars_table": table,
+        "mars_image": mars_image_url
+    }
 
     # close image site
     browser.quit()
