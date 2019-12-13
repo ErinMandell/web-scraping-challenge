@@ -9,22 +9,17 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../../static/styles/style.css">
 </head>
-<!-- <header>
-  <br>
-  <br>
-  <br>
 
-</header> -->
+
 <body>
   <div class="container-fluid">
 
-    <div class="navbar text-center">
+    <div class="navbar nav text-center">
       <h1>Mission to Mars</h1>
-      
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get the Latest Data</a></p>
     </div>
 
-    <div class = "column col-md-2">
+    <div class = "column col-md-3">
       <h3><strong> The Latest Mars News: </strong></h3>
       <p> <strong>{{mars.news_title}}</strong></p>
       <p> {{mars.news_paragraph}}</p>
@@ -36,7 +31,10 @@
       <section> {{ mars.mars_table|safe }} </section>
     </div>
 
-    <div class = "col-md-10">
+    <div class = "col-md-8">
+      <h3><strong> Did you know? </strong></h3>
+      <p> {{mars.mars_d}} </p>
+      <br>
       <h3><strong> Featured Mars Image: </strong> </h3>
       <img src = "{{ mars.mars_image}}" alt="Featured Mars Image">
       <br>
@@ -50,28 +48,29 @@
       <h3 class = "text-center"><strong> Mars' Four Hemishperes </strong></h3>
         
       <div class = "row">
-          <div class = "col-md-6 groove">
+          <div class = "col-md-6">
             <p> <strong>Cerberus Hemisphere Enhanced Photo </strong></p>
             <img src = "{{ mars.mars_hemi_one}}" alt="Mars Cerberus">
             <br>
             <br>
           </div>
-          <div class = "col-md-6 groove">
+          <div class = "col-md-6">
             <p> <strong>Schiaparelli Hemisphere Enhanced Photo </strong></p>
             <img src = "{{ mars.mars_hemi_two}}" alt="Mars Schiaparelli">
+            <br>
             <br>
             <br>
           </div>
         </div>
 
         <div class = "row">
-          <div class = "col-md-6 groove">
+          <div class = "col-md-6">
             <p> <strong> Syrtis Major Hemisphere Enhanced Photo </strong></p>
             <img src = "{{ mars.mars_hemi_three}}" alt="Mars Cerberus">
             <br>
             <br>
           </div>
-          <div class = "col-md-6 groove">
+          <div class = "col-md-6">
             <p> <strong> Valles Marineris Hemisphere Enhanced Photo </strong></p>
             <img src = "{{ mars.mars_hemi_four}}" alt="Mars Schiaparelli">
             <br>

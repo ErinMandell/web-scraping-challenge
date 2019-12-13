@@ -73,12 +73,24 @@ def scrape_info():
     #set variables for scraping facts table
     tables = pd.read_html(url_facts)
 
+    # convert table to dataframe and then to html
     df = tables[0]
     df.columns = ['Description','Data']
 
     table = df.set_index('Description')
-
     mars_table = table.to_html()
+
+    # grab Mars Description paragraph
+    # HTML object
+    html_description = browser.html
+
+    # Parse HTML
+    soup_description = bs(html_description, 'html.parser')
+
+    # Retrieve elements
+    mars_description = soup_description.find('div', class_='entry-content').find('p')
+
+    mars_d = str(mars_description).replace('<a href="https://space-facts.com/the-sun/">', '').replace('<a href="https://space-facts.com/terrestrial-planets/">', '').replace('</a>', '').strip('<p>').strip('</')
 
     # close data site
     browser.quit()
@@ -199,6 +211,7 @@ def scrape_info():
         "news_paragraph": news_p,
         "mars_weather": mars_weather,
         "mars_table": mars_table,
+        "mars_d": mars_d,
         "mars_image": mars_image_url,
         "mars_hemi_one": first_image,
         "mars_hemi_two": second_image,
