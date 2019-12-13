@@ -1,0 +1,23 @@
+/* style sheet for mars project */
+
+.header {
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 20px;
+  }
+
+.navbar {
+    background-color: lightblue;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+}
+
+.btn {
+    font-style: normal;
+    box-shadow: 5px 5px #888888
+}
+
+img {
+    width: 100%;
+    height: auto;
+  }

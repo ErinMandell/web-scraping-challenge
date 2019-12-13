@@ -11,7 +11,6 @@ def init_browser():
     return Browser("chrome", **executable_path, headless=False)
 
 
-
 def scrape_info():
     
     # *************** MARS NEWS *******************************************
@@ -112,6 +111,87 @@ def scrape_info():
     url = 'https://www.jpl.nasa.gov'      
     mars_image_url = url + result_full_image
 
+    # close image site
+    browser.quit()
+
+
+# ************ MARS HEMISPHERES **********************************************
+    
+    # start new browser session for next scrape
+    browser = init_browser()
+
+    # Visit NASA site for image scrape
+    url_first_image = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url_first_image)
+
+    time.sleep(2)
+
+    #Click image #1
+    browser.click_link_by_partial_text('Cerberus')
+
+    # HTML object
+    html_first_image = browser.html
+
+    # Parse HTML
+    soup_first_image = bs(html_first_image, 'html.parser')
+
+    # Retrieve elements
+    result_first_image = soup_first_image.find('div', class_='downloads')   
+    first_image = result_first_image.find('a')['href']
+
+    # go back to main Mars Hemisphere page and wait for it to render
+    browser.back()
+    time.sleep(1)
+
+    #Click image #2
+    browser.click_link_by_partial_text('Schiaparelli')
+
+    # HTML object
+    html_second_image = browser.html
+
+    # Parse HTML
+    soup_second_image = bs(html_second_image, 'html.parser')
+
+    # Retrieve desired elements
+    result_second_image = soup_second_image.find('div', class_='downloads')     
+    second_image = result_second_image.find('a')['href']
+
+    # go back to main Mars Hemisphere page and wait for it to render
+    browser.back()
+    time.sleep(1)
+
+    #Click image #3
+    browser.click_link_by_partial_text('Syrtis')
+
+    # HTML object
+    html_third_image = browser.html
+
+    # Parse HTML
+    soup_third_image = bs(html_third_image, 'html.parser')
+
+    # Retrieve desired elements
+    result_third_image = soup_third_image.find('div', class_='downloads')     
+    third_image = result_third_image.find('a')['href']
+
+    # go back to main Mars Hemisphere page and wait for it to render
+    browser.back()
+    time.sleep(1)
+
+    #Click image #4
+    browser.click_link_by_partial_text('Valles')
+
+    # HTML object
+    html_fourth_image = browser.html
+
+    # Parse HTML
+    soup_fourth_image = bs(html_fourth_image, 'html.parser')
+
+    # Retrieve desired elements
+    result_fourth_image = soup_fourth_image.find('div', class_='downloads')     
+    fourth_image = result_fourth_image.find('a')['href']
+
+    # go back to main Mars Hemisphere page and wait for it to render
+    browser.quit()
 
     # create dictionary containing scraped data
     mars = {
@@ -119,11 +199,12 @@ def scrape_info():
         "news_paragraph": news_p,
         "mars_weather": mars_weather,
         "mars_table": mars_table,
-        "mars_image": mars_image_url
+        "mars_image": mars_image_url,
+        "mars_hemi_one": first_image,
+        "mars_hemi_two": second_image,
+        "mars_hemi_three": third_image,
+        "mars_hemi_four": fourth_image
     }
 
     return mars
 
-    # close image site
-    browser.quit()
-    browser.quit()
